@@ -42,13 +42,11 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+    - name: Notify success
       if: success()
       run: |
         echo "All tests passes successfully !!"
-      
-    - name: Test with pytest
-      run: |
-        pytest
+    - name: Notify failure
       if: failure()
       run: |
         echo "Tests failed. please check the logs !!"
