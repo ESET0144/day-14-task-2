@@ -1,0 +1,57 @@
+name: Python application
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
+
+    - uses: actions/checkout@v4
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v3
+      with:
+        python-version: "3.10"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 pytest
+
+    - name: print
+      run: |
+        echo "Hello world"
+    
+    - name: Print current branch name
+      run: |
+        echo "Current branch: ${{ github.ref_name }}"
+
+    - name: Print current date
+      run: |
+        echo "Today's date: ${{ steps.date.outputs.date }}"
+
+    - name: Test with pytest
+      run: |
+        pytest
+      if: success()
+      run: |
+        echo "All tests passes successfully !!"
+      
+    - name: Test with pytest
+      run: |
+        pytest
+      if: failure()
+      run: |
+        echo "Tests failed. please check the logs !!"
+      
+
+ 
